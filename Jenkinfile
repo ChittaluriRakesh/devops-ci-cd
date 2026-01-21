@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/ChittaluriRakesh/devops-ci-cd.git'
+            }
+        }pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/ChittaluriRakesh/devops-ci-cd.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t jenkins-ci-cd-app .'
+            }
+        }
+
+        stage('Deploy Application') {
+            steps {
+                sh 'docker rm -f jenkins-app || true'
+                sh 'docker run -d -p 8081:5000 --name jenkins-app jenkins-ci-cd-app'
+            }
+        }
+    }
+}
+
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t jenkins-ci-cd-app .'
+            }
+        }
+
+        stage('Deploy Application') {
+            steps {
+                sh 'docker rm -f jenkins-app || true'
+                sh 'docker run -d -p 8081:5000 --name jenkins-app jenkins-ci-cd-app'
+            }
+        }
+    }
+}
